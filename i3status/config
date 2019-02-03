@@ -46,7 +46,7 @@ battery all {
 }
 
 tztime local {
-        format = ": %Y-%m-%d : %H:%M"
+        format = ": %Y-%m-%d : %H:%M"
 }
 
 disk "/home" {
@@ -54,8 +54,8 @@ disk "/home" {
 }
 
 volume master {
-        format = "♪: %volume"
-        format_muted = "♪: muted (%volume)"
+        format = ": %volume"
+        format_muted = ": muted (%volume)"
         device = "default"
         mixer = "Master"
         mixer_idx = 0
