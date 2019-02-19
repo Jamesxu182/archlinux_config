@@ -1,0 +1,10 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Eclipse Go
+Comment=Eclipse Go
+Exec=/home/james/eclipse/go-eclipse/eclipse/eclipse
+Icon=eclipse
+Categories=Application;Development;Go;IDE
+Type=Application
+Terminal=0
+Name[en_US]=Eclipse Go

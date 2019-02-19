@@ -1,0 +1,9 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Eclipse Java
+Comment=Eclipse Java
+Exec=/home/james/eclipse/java-eclipse/eclipse/eclipse
+Icon=eclipse
+Categories=Application;Development;Java;IDE
+Type=Application
+Terminal=0

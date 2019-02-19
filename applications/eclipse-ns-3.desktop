@@ -1,0 +1,9 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Eclipse NS-3
+Comment=Eclipse NS-3
+Exec=/home/james/eclipse/ns-3-eclipse/eclipse/eclipse
+Icon=eclipse
+Categories=Application;Development;Java;IDE
+Type=Application
+Terminal=0

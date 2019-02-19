@@ -1,0 +1,9 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Eclipse JEE
+Comment=Eclipse JEE
+Exec=/home/james/eclipse/jee-eclipse/eclipse/eclipse
+Icon=eclipse
+Categories=Application;Development;Java;IDE
+Type=Application
+Terminal=0

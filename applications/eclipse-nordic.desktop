@@ -1,0 +1,9 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Eclipse Nordic
+Comment=Eclipse Nordic
+Exec=/home/james/eclipse/nordic-eclipse/eclipse/eclipse
+Icon=eclipse
+Categories=Application;Development;Java;IDE
+Type=Application
+Terminal=0
