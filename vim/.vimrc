@@ -112,6 +112,9 @@ Plugin 'powerline/powerline'
 Plugin 'godlygeek/tabular'
 Plugin 'plasticboy/vim-markdown'
 Plugin 'euclio/vim-markdown-composer'
+Plugin 'itchyny/lightline.vim'
+Plugin 'mattn/emmet-vim'
+Plugin 'airblade/vim-gitgutter'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -193,7 +196,7 @@ set laststatus=2                " show all the time
 """"""""""""""""""""""""""""""""""""""""""""
 " Color Scheme Settings
 """"""""""""""""""""""""""""""""""""""""""""
-colorscheme gruvbox
+colorscheme wombat
 
 """"""""""""""""""""""""""""""""""""""""""""
 " Markdown Composer Settings
@@ -201,3 +204,10 @@ colorscheme gruvbox
 let g:markdown_composer_browser='luakit'
 let g:markdown_composer_open_browser='luakit'
 let g:markdown_composer_autostart=1
+
+""""""""""""""""""""""""""""""""""""""""""""
+" lightline.vim Composer Settings
+""""""""""""""""""""""""""""""""""""""""""""
+let g:lightline = {
+    \ 'colorscheme': 'wombat',
+    \}
