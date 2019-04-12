@@ -32,10 +32,22 @@ nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 
 " Window Resize
-" nnoremap <C-M-l> :vertical resize -10<CR>
-" nnoremap <C-M-h> :vertical resize +10<CR>
+" nnoremap <C-M>J :vertical resize -10<CR>
+" nnoremap <C-M>H:vertical resize +10<CR>
 " nnoremap <C-W>h :resize -10<CR>
 " nnoremap <C-W>k :resize +10<CR>
+
+" Tab Switch
+noremap <leader>1 1gt
+noremap <leader>2 2gt
+noremap <leader>3 3gt
+noremap <leader>4 4gt
+noremap <leader>5 5gt
+noremap <leader>6 6gt
+noremap <leader>7 7gt
+noremap <leader>8 8gt
+noremap <leader>9 9gt
+noremap <leader>0 :tablast<cr>
 
 """""""""""""""""""""""""""""""""""""""""""
 " Cursor
@@ -79,7 +91,8 @@ call vundle#begin()
 "call vundle#begin('~/some/path/here')
 
 " let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
+" Plugin 'VundleVim/Vundle.vim'
+Plugin 'gmarik/Vundle.vim'
 
 " The following are examples of different formats supported.
 " Keep Plugin commands between vundle#begin/end.
@@ -106,7 +119,6 @@ Plugin 'Valloric/YouCompleteMe'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'vim-latex/vim-latex'
 Plugin 'xuhdev/vim-latex-live-preview'
-Plugin 'tc50cal/vim-terminal'
 Plugin 'majutsushi/tagbar'
 Plugin 'powerline/powerline' 
 Plugin 'godlygeek/tabular'
@@ -115,6 +127,10 @@ Plugin 'euclio/vim-markdown-composer'
 Plugin 'itchyny/lightline.vim'
 Plugin 'mattn/emmet-vim'
 Plugin 'airblade/vim-gitgutter'
+Plugin 'tpope/vim-vinegar'
+Plugin 'sheerun/vim-polyglot'
+" Plugin 'rstacruz/vim-closer'
+Plugin 'junegunn/fzf.vim'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -136,7 +152,6 @@ filetype plugin indent on    " required
 " open by default
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
-
 
 """"""""""""""""""""""""""""""""""""""""""""
 " NERDTree Settings
@@ -178,14 +193,9 @@ let g:livepreview_previewer = 'zathura'
 let g:livepreview_engine = 'pdflatex' . ' '
 
 """"""""""""""""""""""""""""""""""""""""""""
-" Vim-Terminal Settings
+" CTagbar Settings
 """"""""""""""""""""""""""""""""""""""""""""
-nnoremap <Leader>b :TerminalSplit /usr/bin/bash<CR>
-
-""""""""""""""""""""""""""""""""""""""""""""
-" Tagbar Settings
-""""""""""""""""""""""""""""""""""""""""""""
-nmap <Leader>t :TagbarToggle<Enter>
+nmap <Leader>c :TagbarToggle<Enter>
 
 """"""""""""""""""""""""""""""""""""""""""""
 " Powerline Settings
@@ -196,7 +206,7 @@ set laststatus=2                " show all the time
 """"""""""""""""""""""""""""""""""""""""""""
 " Color Scheme Settings
 """"""""""""""""""""""""""""""""""""""""""""
-colorscheme wombat
+colorscheme molokai
 
 """"""""""""""""""""""""""""""""""""""""""""
 " Markdown Composer Settings
@@ -209,5 +219,33 @@ let g:markdown_composer_autostart=1
 " lightline.vim Composer Settings
 """"""""""""""""""""""""""""""""""""""""""""
 let g:lightline = {
-    \ 'colorscheme': 'wombat',
-    \}
+    \'colorscheme': 'molokai',
+\}
+
+""""""""""""""""""""""""""""""""""""""""""""
+" fzf vim Settings
+""""""""""""""""""""""""""""""""""""""""""""
+if executable('fzf')
+  " FZF {{{
+  " <C-p> or <C-t> to search files
+  nnoremap <silent> <Leader>t :FZF -m<cr>
+
+  " <M-p> for open buffers
+  nnoremap <silent> <Leader>b :Buffers<cr>
+
+  " <M-S-p> for MRU
+  nnoremap <silent> <Leader>h :History<cr>
+
+  " Better command history with q:
+  command! CmdHist call fzf#vim#command_history({'right': '40'})
+  nnoremap q: :CmdHist<CR>
+
+  " Better search history
+  command! QHist call fzf#vim#search_history({'right': '40'})
+  nnoremap q/ :QHist<CR>
+
+  command! -bang -nargs=* Ack call fzf#vim#ag(<q-args>, {'down': '40%', 'options': --no-color'})
+  " }}}
+else
+end
+
