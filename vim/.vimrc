@@ -1,4 +1,4 @@
-"""""""""""""""""""""""""""""""""""""""""""
+
 " General Settings
 """""""""""""""""""""""""""""""""""""""""""
 filetype plugin indent on
@@ -120,16 +120,12 @@ Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'vim-latex/vim-latex'
 Plugin 'xuhdev/vim-latex-live-preview'
 Plugin 'majutsushi/tagbar'
-Plugin 'powerline/powerline' 
 Plugin 'godlygeek/tabular'
 Plugin 'plasticboy/vim-markdown'
 Plugin 'euclio/vim-markdown-composer'
-Plugin 'itchyny/lightline.vim'
 Plugin 'mattn/emmet-vim'
 Plugin 'airblade/vim-gitgutter'
-Plugin 'tpope/vim-vinegar'
 Plugin 'sheerun/vim-polyglot'
-" Plugin 'rstacruz/vim-closer'
 Plugin 'junegunn/fzf.vim'
 
 " All of your Plugins must be added before the following line
@@ -200,8 +196,9 @@ nmap <Leader>c :TagbarToggle<Enter>
 """"""""""""""""""""""""""""""""""""""""""""
 " Powerline Settings
 """"""""""""""""""""""""""""""""""""""""""""
-let g:powerline_pycmd="py"
+set rtp+=/usr/lib/python3.7/site-packages/powerline/bindings/vim/
 set laststatus=2                " show all the time
+set t_Co=256
 
 """"""""""""""""""""""""""""""""""""""""""""
 " Color Scheme Settings
@@ -214,38 +211,3 @@ colorscheme molokai
 let g:markdown_composer_browser='luakit'
 let g:markdown_composer_open_browser='luakit'
 let g:markdown_composer_autostart=1
-
-""""""""""""""""""""""""""""""""""""""""""""
-" lightline.vim Composer Settings
-""""""""""""""""""""""""""""""""""""""""""""
-let g:lightline = {
-    \'colorscheme': 'molokai',
-\}
-
-""""""""""""""""""""""""""""""""""""""""""""
-" fzf vim Settings
-""""""""""""""""""""""""""""""""""""""""""""
-if executable('fzf')
-  " FZF {{{
-  " <C-p> or <C-t> to search files
-  nnoremap <silent> <Leader>t :FZF -m<cr>
-
-  " <M-p> for open buffers
-  nnoremap <silent> <Leader>b :Buffers<cr>
-
-  " <M-S-p> for MRU
-  nnoremap <silent> <Leader>h :History<cr>
-
-  " Better command history with q:
-  command! CmdHist call fzf#vim#command_history({'right': '40'})
-  nnoremap q: :CmdHist<CR>
-
-  " Better search history
-  command! QHist call fzf#vim#search_history({'right': '40'})
-  nnoremap q/ :QHist<CR>
-
-  command! -bang -nargs=* Ack call fzf#vim#ag(<q-args>, {'down': '40%', 'options': --no-color'})
-  " }}}
-else
-end
-
