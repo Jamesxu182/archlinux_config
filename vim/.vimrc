@@ -112,7 +112,7 @@ highlight CursorColumn ctermfg=White ctermbg=Yellow cterm=bold guifg=white guibg
 " Miscs
 """""""""""""""""""""""""""""""""""""""""""
 " auto change to the directory to where the current file locates
-set autochdir
+" set autochdir
 
 " enable wild menu
 set wildmenu
