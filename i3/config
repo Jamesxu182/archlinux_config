@@ -34,6 +34,44 @@ font pango:monospace 8
 # x core fonts rendering does not support right-to-left and this being a bitmap
 # font, it doesn’t scale on retina/hidpi displays.
 
+# hard contrast: background = #1d2021
+set $background #282828
+# soft contrast: background = #32302f
+set $foreground #ebdbb2
+set $foreground_bold #ebdbb2
+
+# dark0 + gray
+set $color0 #282828
+set $color8 #928374
+
+# neutral_red + bright_red
+set $color1 #cc241d
+set $color9 #fb4934
+
+# neutral_green + bright_green
+set $color2 #98971a
+set $color10 #b8bb26
+
+# neutral_yellow + bright_yellow
+set $color3 #d79921
+set $color11 #fabd2f
+
+# neutral_blue + bright_blue
+set $color4 #458588
+set $color12 #83a598
+
+# neutral_purple + bright_purple
+set $color5 #b16286
+set $color13 #d3869b
+
+# neutral_aqua + faded_aqua
+set $color6 #689d6a
+set $color14 #8ec07c
+
+# light4 + light1
+set $color7 #a89984
+set $color15 #ebdbb2
+
 # use mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
@@ -48,6 +86,7 @@ bindsym $mod+shift+q kill
 # there also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. it is a wrapper around dmenu, so you need that
 # installed.
+# bindsym $mod+d exec --no-startup-id i3-dmenu-desktop --dmenu='dmenu -i -nb "$background" -nf "$foreground" -sb "$color4" -sf "$color0"'
 bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 
 # change focus
@@ -69,10 +108,10 @@ bindsym $mod+shift+l move up
 bindsym $mod+shift+semicolon move right
 
 # alternatively, you can use the cursor keys:
-bindsym $mod+shift+Left move left
-bindsym $mod+shift+Down move down
-bindsym $mod+shift+Up move up
-bindsym $mod+shift+Right move right
+bindsym $mod+shift+left move left
+bindsym $mod+shift+down move down
+bindsym $mod+shift+up move up
+bindsym $mod+shift+right move right
 
 # split in horizontal orientation
 bindsym $mod+h split h
@@ -101,16 +140,27 @@ bindsym $mod+a focus parent
 #bindsym $mod+d focus child
 
 # set workspace title
-set $workspace1 1: www
-set $workspace2 2: code
-set $workspace3 3: file
-set $workspace4 4: vm
-set $workspace5 5: mail
-set $workspace6 6: irc
-set $workspace7 7: media
-set $workspace8 8: monitor
-set $workspace9 9: misc
-set $workspace10 10: spotify
+# set $workspace1 1: www
+# set $workspace2 2: code
+# set $workspace3 3: file
+# set $workspace4 4: vm
+# set $workspace5 5: mail
+# set $workspace6 6: irc
+# set $workspace7 7: media
+# set $workspace8 8: monitor
+# set $workspace9 9: misc
+# set $workspace10 10: spotify
+
+set $workspace1 1: 
+set $workspace2 2: 
+set $workspace3 3: 
+set $workspace4 4: 
+set $workspace5 5: 
+set $workspace6 6: 
+set $workspace7 7: 
+set $workspace8 8: 
+set $workspace9 9: 
+set $workspace10 10: 
 
 # switch to workspace
 bindsym $mod+1 workspace $workspace1
@@ -158,10 +208,10 @@ mode "$resize_mode" {
         bindsym semicolon resize grow width 10 px or 10 ppt
 
         # same bindings, but for the arrow keys
-        bindsym left resize shrink width 10 px or 10 ppt
-        bindsym down resize grow height 10 px or 10 ppt
-        bindsym up resize shrink height 10 px or 10 ppt
-        bindsym right resize grow width 10 px or 10 ppt
+        bindsym Left resize shrink width 10 px or 10 ppt
+        bindsym Down resize grow height 10 px or 10 ppt
+        bindsym Up resize shrink height 10 px or 10 ppt
+        bindsym Right resize grow width 10 px or 10 ppt
 
         # back to normal: enter or escape
         bindsym Return mode "default"
@@ -172,7 +222,8 @@ bindsym $mod+r mode "$resize_mode"
 
 set $mode_system system: (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (shift+s) shutdown
 mode "$mode_system" {
-    bindsym l exec --no-startup-id betterlockscreen -l dim, mode "default"
+    # bindsym l exec --no-startup-id betterlockscreen -l dim, mode "default"
+    bindsym l exec --no-startup-id light-locker-command -l, mode "default"
     bindsym e exec --no-startup-id i3msg exit, mode "default"
     bindsym s exec --no-startup-id systemctl suspend, mode "default"
     bindsym h exec --no-startup-id systemctl hibernate, mode "default"
@@ -200,62 +251,90 @@ mode "$mode_player" {
 
 bindsym $mod+p mode "$mode_player"
 
-set $mode_graphics discrete graphics: (e) enable (d) disable
-mode "$mode_graphics" {
-    bindsym e exec --no-startup-id tee /proc/acpi/bbswitch <<<on, mode "default"
-    bindsym d exec --no-startup-id tee /proc/acpi/bbswitch <<<off, mode "default"
+set $mode_settings settings: (o) pulseaudio sink (output), (i) pulseaudio source (input), (x) xrandr
+mode "$mode_settings" {
+    bindsym o exec --no-startup-id idx=$(pamixer --list-sinks | awk -F'"' '{if (NR > 1) print $1 $4}' | dmenu -p "PulseAudio Sink: " | awk '{print $1}') && pamixer --sink $idx, mode "default"
+    bindsym i exec --no-startup-id idx=$(pamixer --list-sources | awk -F'"' '{if (NR > 1) print $1 $4}' | dmenu -p "PulseAudio Source: " | awk '{print $1}') && pamixer --source $idx, mode "default"
+    bindsym x exec --no-startup-id profile=$(autorandr --current | dmenu -p "XRandr Profile: ") && autorandr --load $profile, mode "default"
 
+    # back to normal: enter or escape
     bindsym Return mode "default"
     bindsym Escape mode "default"
 }
 
-bindsym $mod+g mode "$mode_graphics"
+bindsym $mod+z mode "$mode_settings"
+
+
+smart_gaps on
+smart_borders on
+
+gaps inner 20
+
+# define color scheme of client
+# client.focused $color4 $color4 $color0 $color0
+# client.focused_inactive $color0 $color0 $color8 $color8
+# client.unfocused $color0 $color0 $color8 $color8
+# client.urgent $color1 $color1 $color0 $color0
 
 # start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
-        i3bar_command i3bar
+        i3bar_command i3bar -t
         status_command i3status
+        # status_command python /usr/lib/python3.7/site-packages/powerline/bindings/i3/powerline-i3.py
         position top
-        font pango:dejavu sans mono, awesome 8
+        font pango:dejavu sans mono for powerline, awesome 8
 
         # status_command i3status-rs /home/james/.config/i3/config.toml
+        # define color scheme for i3 bar
         # colors {
-        #     separator #666666
-        #     background #222222
-        #     statusline #dddddd
-        #     focused_workspace #0088CC #0088CC #ffffff
-        #     active_workspace #333333 #333333 #ffffff
-        #     inactive_workspace #333333 #333333 #888888
-        #     urgent_workspace #2f343a #900000 #ffffff
+            # separator $color8
+            # background $background
+            # statusline $foreground
+            # focused_workspace $color4 $color4 $color0
+            # active_workspace $color8 $color8 color3
+            # inactive_workspace $color0 $color0 color8
+            # urgent_workspace $color1 $color1 $color0
         # }
 }
 
 # Function Button Key Bind
-bindsym XF86AudioLowerVolume exec pamixer -d 10
-bindsym XF86AudioRaiseVolume exec pamixer -i 10
+bindsym XF86AudioLowerVolume exec pamixer -d 5
+bindsym XF86AudioRaiseVolume exec pamixer -i 5
+
+bindsym shift+XF86AudioLowerVolume exec pamixer --default-source -d 5
+bindsym shift+XF86AudioRaiseVolume exec pamixer --default-source -i 5
 
 bindsym XF86AudioMute exec pamixer -t
-bindsym XF86AudioMicMute exec pamixer --source 1 -t
+bindsym XF86AudioMicMute exec pamixer --default-source -t
 
-bindsym XF86MonBrightnessDown exec xbacklight -dec 10
-bindsym XF86MonBrightnessUp exec xbacklight -inc 10
+bindsym XF86MonBrightnessDown exec xbacklight -dec 5
+bindsym XF86MonBrightnessUp exec xbacklight -inc 5
 
-bindsym $mod+n exec networkmanager_dmenu
+bindsym XF86Display exec arandr
+bindsym XF86Tools exec i3-sensible-terminal -e zsh -c "vim .config/i3/config"
+
+bindsym XF86Favorites exec i3-sensible-terminal -e zsh -c "xdg-open ~/Downloads"
+
+# bindsym $mod+n exec conn=$(nmcli conn show | awk 'FNR > 1 {print $1}' | dmenu -p "WiFi Connections: " -nb "$background" -nf "$foreground" -sb "$color4" -sf "$color0") && nmcli conn up $conn
+bindsym $mod+n exec conn=$(nmcli conn show | awk 'FNR > 1 {print $1}' | dmenu -p "WiFi Connections: ") && nmcli conn up $conn
 
 # Browser
 # bindsym $mod+b exec uzbl-tabbed
 bindsym $mod+b exec luakit
 
-# i3-alt-tab
-# bindsym $alt+Tab exec i3-alt-tab --next
-# bindsym $alt+Shift+Tab exec i3-alt-tab --prev
-
 # Rofi
-bindsym $mod+Tab exec --no-startup-id rofi -combi-modi window -font "DejaVu Sans Mono 14" -show combi -show-icons
+# bindsym $mod+Tab exec --no-startup-id rofi -combi-modi window -font "DejaVu Sans Mono 14" -show combi -show-icons
 
-# Autostart TWMN
-exec --no-startup-id twmnd
+# switch between the pervious window
+bindsym $mod+Tab workspace back_and_forth 
+
+bindsym $mod+o exec --no-startup-id idx=$(pamixer --list-sinks | awk -F'"' '{if (NR > 1) print $1 $4}' | dmenu -p "PulseAudio Sink: " | awk '{print $1}') && pamixer --sink $idx
+bindsym $mod+i exec --no-startup-id idx=$(pamixer --list-sources | awk -F'"' '{if (NR > 1) print $1 $4}' | dmenu -p "PulseAudio Source: " | awk '{print $1}') && pamixer --source $idx
+bindsym $mod+x exec --no-startup-id profile=$(autorandr --current | dmenu -p "XRandr Profile: ") && autorandr --load $profile
+
+# Autostart dunst for notification daemon
+exec --no-startup-id dunst
 
 # Autostart polkit-gnome
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
@@ -263,25 +342,36 @@ exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 # Autostart caffeine
 exec --no-startup-id caffeine
 
+# Compton
+exec --no-startup-id compton
+
 # Wallpaper
-exec --no-startup-id feh --bg-scale $HOME/Pictures/Wallpaper/wallpaper.jpg
+exec --no-startup-id feh --bg-fill $HOME/Pictures/Wallpaper/wallpaper.jpg
+
+# udiskie for auto mount
+exec --no-startup-id udiskie
 
 # Screenshot
-bindsym Print exec scrot '%Y-%m-%d-%s_screenshot_$wx$h.jpg' -e 'mkdir -p ~/Pictures/Screenshot/ && mv $f ~/Pictures/Screenshot && notify-send "Screenshot Taken"'
+bindsym Print exec scrot '%Y-%m-%d-%s_screenshot_$wx$h.jpg' -e 'xclip -selection c -t image/png < $f'
+
+bindsym $mod+Print exec scrot -s '%Y-%m-%d-%s_screenshot_$wx$h.jpg' -e 'xclip -selection c -t image/png < $f'
 
 # Autolock
-# exec --no-startup-id xautolock -time 5 -locker "betterlockscreen -l dim"
+# exec --no-startup-id xautolock -time 5 -locker "betterlockscreen -l blur"
+# exec --no-startup-id xss-lock -- /usr/bin/betterlockscreen -l dim
+exec --no-startup-id light-locker
 
 # Assign application to specific workspace
-assign [class="Firefox"] $workspace1
-assign [class="Atom"] $workspace2
-assign [class="Eclipse"] $workspace2
-
+# assign [class="Firefox"] $workspace1
+# assign [class="Atom"] $workspace2
+# assign [class="Eclipse"] $workspace2
+#
+for_window [class=".*"] border pixel 2
 for_window [class="Spotify"] move to workspace $workspace10
 
 focus_on_window_activation urgent
 
 # HDMI
-exec --no-startup-id xrandr --output HDMI1 --mode 2560x1440 --above eDP1
+# exec --no-startup-id xrandr --output HDMI1 --mode 2560x1440 --above eDP1
 bindsym $mod+m move workspace to output HDMI1
 bindsym $mod+Shift+m move workspace to output eDP1
